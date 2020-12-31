@@ -16,7 +16,7 @@
 ## MySQL 데이터베이스 생성 및 사용자 생성
 
 ```sql
-create user 'bloguser'@'%' identified by 'bitc5600';
+create user 'bloguser'@'%' identified by '1234';
 GRANT ALL PRIVILEGES ON *.* TO 'bloguser'@'%';
 create database blog;
 ```
