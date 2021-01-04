@@ -2,6 +2,7 @@ package com.cos.blog.domain.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import com.cos.blog.config.DB;
 import com.cos.blog.domain.user.dto.JoinReqDto;
@@ -32,7 +33,25 @@ public class UserDao {
 	public void usernameCheck() { // 아이디 중복 체크
 		
 	}
-	public void findById() { // 회원정보 보기
-		
+	public int findById(String username) { // 회원정보 보기
+		String sql = "SELECT * FROM users WHERE username=?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return 1;
+			}else {
+				return -1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	// 항상 실행
+			DB.close(conn, pstmt, rs);
+		}
+		return -1;
 	}
 }
