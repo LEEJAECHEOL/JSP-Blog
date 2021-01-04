@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cos.blog.domain.user.dto.JoinReqDto;
 import com.cos.blog.domain.user.dto.LoginReqDto;
 import com.cos.blog.service.UserService;
+import com.cos.blog.util.Script;
 
 // http://localhost:8000/blog/user
 @WebServlet("/user")
@@ -51,7 +52,7 @@ public class UserController extends HttpServlet {
 			// 서비스에서 받은 데이터를 가지고 데이터베이스에 연결하든지 한다.
 			userService.로그인(dto);
 		} else if(cmd.equals("joinForm")) {
-			response.sendRedirect("user/joinFrom.jsp");
+			response.sendRedirect("user/JoinForm.jsp");
 		} else if(cmd.equals("join")) {
 			// 리플렉션안하고 따로 뺴고싶으면 클래스를 만들어 처리함수를 생성하고 함수를 호출한다.
 			String username = request.getParameter("username");
@@ -65,17 +66,13 @@ public class UserController extends HttpServlet {
 			dto.setAddress(address);
 			dto.setUsername(username);
 			dto.setPassword(password);
-			System.out.println("회원가입 : " + dto);
+//			System.out.println("회원가입 : " + dto);
 			int result = userService.회원가입(dto);
 			if(result == 1) {
 				response.sendRedirect("index.jsp");
 			}else {
 				// Script.back();
-				PrintWriter out = response.getWriter();
-				out.println("<script>");
-				out.println("history.back()");
-				out.println("</script>");
-				out.flush();
+				Script.back(response, "회원가입 실패");
 			}
 		}
 		

@@ -14,12 +14,25 @@
 	    <input type="text" name="email" class="form-control" placeholder="Enter email" required/>
 	  </div>
 	  <div class="form-group">
-	    <input type="text" name="address" class="form-control" placeholder="Enter Address" required/>
+	 	<button type="button" class="btn btn-info " onClick="goPopup();">주소검색</button>
+	    <input type="text" name="address" id="address" class="form-control" placeholder="Enter Address" required readonly/>
 	  </div>
 	  <button type="submit" class="btn btn-primary">회원가입</button>
 	</form>
 </div>
+<script>
 
+function goPopup(){
+	var pop = window.open("/blog/test/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+	 
+}
+
+function jusoCallBack(roadFullAddr){
+	document.querySelector('#address').value = roadFullAddr;
+		
+}
+
+</script>
 </body>
 </html>
 </body>
