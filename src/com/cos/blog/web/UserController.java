@@ -1,6 +1,8 @@
 package com.cos.blog.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -63,8 +65,18 @@ public class UserController extends HttpServlet {
 			dto.setAddress(address);
 			dto.setUsername(username);
 			dto.setPassword(password);
-			
-			userService.회원가입(dto);
+			System.out.println("회원가입 : " + dto);
+			int result = userService.회원가입(dto);
+			if(result == 1) {
+				response.sendRedirect("index.jsp");
+			}else {
+				// Script.back();
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("history.back()");
+				out.println("</script>");
+				out.flush();
+			}
 		}
 		
 	}

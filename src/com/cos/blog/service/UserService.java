@@ -1,15 +1,27 @@
 package com.cos.blog.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.cos.blog.config.DB;
 import com.cos.blog.domain.user.User;
+import com.cos.blog.domain.user.UserDao;
 import com.cos.blog.domain.user.dto.JoinReqDto;
 import com.cos.blog.domain.user.dto.LoginReqDto;
 
 public class UserService {
+	
+	private UserDao userDao;
+	
+	public UserService() {
+		this.userDao = new UserDao();
+	}
 	// 회원가입, 회원 수정, 로그인, 로그아웃,아이디 중복체크
 	
 	public int 회원가입(JoinReqDto dto) {
-		
-		return -1;
+		int result = userDao.save(dto);
+		return result;
 	}
 	
 	public User 로그인(LoginReqDto dto) {
