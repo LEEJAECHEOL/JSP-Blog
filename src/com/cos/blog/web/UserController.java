@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.cos.blog.domain.user.User;
 import com.cos.blog.domain.user.dto.JoinReqDto;
 import com.cos.blog.domain.user.dto.LoginReqDto;
 import com.cos.blog.service.UserService;
@@ -51,7 +53,14 @@ public class UserController extends HttpServlet {
 			dto.setPassword(password);
 			// 서비스를 실행하기전에 데이터를 가공해야한다. 
 			// 서비스에서 받은 데이터를 가지고 데이터베이스에 연결하든지 한다.
-			userService.로그인(dto);
+			User userEntity = userService.로그인(dto);
+			if(userEntity != null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("principal", userEntity);	// 인증주체
+				response.sendRedirect("index.jsp");
+			}else {
+				Script.back(response, "로그인 실패");
+			}
 		} else if(cmd.equals("joinForm")) {
 			response.sendRedirect("user/JoinForm.jsp");
 		} else if(cmd.equals("join")) {
@@ -87,6 +96,10 @@ public class UserController extends HttpServlet {
 				out.print("fail");
 			}
 			out.flush();
+		}else if(cmd.equals("logout")) {
+			HttpSession session = request.getSession();
+			session.invalidate();
+			response.sendRedirect("index.jsp");
 		}
 		
 	}

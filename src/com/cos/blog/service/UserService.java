@@ -25,8 +25,7 @@ public class UserService {
 	}
 	
 	public User 로그인(LoginReqDto dto) {
-		
-		return null;
+		return userDao.findByByUsernameAndPassword(dto);
 	}
 	public int 회원수정() {
 		return -1;
