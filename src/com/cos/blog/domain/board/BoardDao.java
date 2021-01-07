@@ -31,7 +31,7 @@ public class BoardDao {
 	}
 	public List<Board> findAll(){
 		List<Board> list = new ArrayList<>();
-		String sql = "SELECT * FROM board";
+		String sql = "SELECT id, userId, title, readCount, createDate FROM board";
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -43,7 +43,6 @@ public class BoardDao {
 							.id(rs.getInt("id"))
 							.userId(rs.getInt("userId"))
 							.title(rs.getString("title"))
-							.content(rs.getString("content"))
 							.readCount(rs.getInt("readCount"))
 							.createDate(rs.getTimestamp("createDate"))
 							.build()

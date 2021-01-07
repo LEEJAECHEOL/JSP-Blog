@@ -15,14 +15,14 @@ public class ForbiddenUrlConfig implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("실행됨");
+//		System.out.println("실행됨");
 		PrintWriter out = response.getWriter();
 		out.println("<script>");
 		out.println("alert('잘못된 접근입니다.');");
 		out.println("location.href='/blog/board?cmd=list';");
 		out.println("</script>");
 		out.flush();
-//		chain.doFilter(request, response);
+		
 	}
 
 }
