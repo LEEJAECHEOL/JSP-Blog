@@ -11,5 +11,5 @@
 </body>
 </html>
 <%
-	response.sendRedirect("board/list.jsp");
+response.sendRedirect("board?cmd=list");
 %>

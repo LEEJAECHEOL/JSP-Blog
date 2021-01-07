@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +42,8 @@ public class UserController extends HttpServlet {
 		if(cmd.equals("loginForm")) {
 			// 아이디 기억 나중에 서비스를 만들 예정
 			
-			response.sendRedirect("user/LoginForm.jsp");
+			RequestDispatcher dis = request.getRequestDispatcher("user/LoginForm.jsp");
+			dis.forward(request, response);
 		} else if(cmd.equals("login")) {
 			// 서비스 호출
 			// 리플렉방식으로 하면 dto를 만들어서 들고 있음 리플렉션으로 필터링 해야함 하지만 이방식 사용안함.
@@ -57,12 +59,14 @@ public class UserController extends HttpServlet {
 			if(userEntity != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("principal", userEntity);	// 인증주체
-				response.sendRedirect("index.jsp");
+				RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
+				dis.forward(request, response);
 			}else {
 				Script.back(response, "로그인 실패");
 			}
 		} else if(cmd.equals("joinForm")) {
-			response.sendRedirect("user/JoinForm.jsp");
+			RequestDispatcher dis = request.getRequestDispatcher("user/JoinForm.jsp");
+			dis.forward(request, response);
 		} else if(cmd.equals("join")) {
 			// 리플렉션안하고 따로 뺴고싶으면 클래스를 만들어 처리함수를 생성하고 함수를 호출한다.
 			String username = request.getParameter("username");
@@ -79,7 +83,8 @@ public class UserController extends HttpServlet {
 //			System.out.println("회원가입 : " + dto);
 			int result = userService.회원가입(dto);
 			if(result == 1) {
-				response.sendRedirect("index.jsp");
+				RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
+				dis.forward(request, response);
 			}else {
 				// Script.back();
 				Script.back(response, "회원가입 실패");
@@ -99,7 +104,11 @@ public class UserController extends HttpServlet {
 		}else if(cmd.equals("logout")) {
 			HttpSession session = request.getSession();
 			session.invalidate();
-			response.sendRedirect("index.jsp");
+			RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
+			dis.forward(request, response);
+		}else if(cmd.equals("juso")) {
+			RequestDispatcher dis = request.getRequestDispatcher("user/jusoPopup.jsp");
+			dis.forward(request, response);
 		}
 		
 	}

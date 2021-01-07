@@ -29,7 +29,7 @@
 
 var isChecking = false;
 function goPopup(){
-	var pop = window.open("/blog/test/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+	var pop = window.open("/blog/user?cmd=juso","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 	 
 }
 
