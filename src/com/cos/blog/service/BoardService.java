@@ -16,7 +16,10 @@ public class BoardService {
 	public int 글쓰기(SaveReqDto dto) {
 		return boardDao.save(dto);
 	}
-	public List<Board> 목록보기(){
-		return boardDao.findAll();
+	public List<Board> 목록보기(int page){
+		return boardDao.findAll(page);
+	}
+	public boolean 다음게시물목록여부(int page) {
+		return boardDao.isNextList(page);
 	}
 }

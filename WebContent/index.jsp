@@ -11,5 +11,5 @@
 </body>
 </html>
 <%
-response.sendRedirect("board?cmd=list");
+response.sendRedirect("board?cmd=list&page=0");
 %>

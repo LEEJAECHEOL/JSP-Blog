@@ -19,7 +19,7 @@ public class ForbiddenUrlConfig implements Filter {
 		PrintWriter out = response.getWriter();
 		out.println("<script>");
 		out.println("alert('잘못된 접근입니다.');");
-		out.println("location.href='/blog/board?cmd=list';");
+		out.println("location.href='/blog/board?cmd=list&page=0';");
 		out.println("</script>");
 		out.flush();
 		

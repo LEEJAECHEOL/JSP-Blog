@@ -25,20 +25,34 @@
 						<h4 class="card-title">${boardVO.title}</h4>
 						<p>작성일자 : ${boardVO.createDate}</p>
 						<p>조회수 : ${boardVO.readCount}</p>
-						<a href="#" class="btn btn-primary">상세보기</a>
+						<a href="/blog/board?cmd=detail&id=${boardVO.id}" class="btn btn-primary">상세보기</a>
 					</div>
 				</div>
 				<br />
 			</c:forEach>
 	  	</c:when>
 	  	<c:otherwise>
-	  		<h3>등록된 게시물이 없습니다.</h3>
+	  		<h3 class="text-center">등록된 게시물이 없습니다.</h3>
 	  	</c:otherwise>
   	</c:choose>
 	
 	<ul class="pagination justify-content-center">
-		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-		<li class="page-item"><a class="page-link" href="#">Next</a></li>
+		<c:choose>
+		  	<c:when test="${param.page-1 < 0}">
+				<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+		  	</c:when>
+		  	<c:otherwise>
+				<li class="page-item"><a class="page-link" href="/blog/board?cmd=list&page=${param.page-1}">Previous</a></li>
+		  	</c:otherwise>
+	  	</c:choose>
+		<c:choose>
+		  	<c:when test="${requestScope.isEnd == false}">
+				<li class="page-item"><a class="page-link" href="/blog/board?cmd=list&page=${param.page+1}">Next</a></li>
+		  	</c:when>
+		  	<c:otherwise>
+				<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+		  	</c:otherwise>
+	  	</c:choose>
 	</ul>
 </div>
 

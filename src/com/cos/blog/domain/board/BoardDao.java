@@ -29,14 +29,15 @@ public class BoardDao {
 		}
 		return -1;
 	}
-	public List<Board> findAll(){
+	public List<Board> findAll(int page){
 		List<Board> list = new ArrayList<>();
-		String sql = "SELECT id, userId, title, readCount, createDate FROM board";
+		String sql = "SELECT id, userId, title, readCount, createDate FROM board ORDER BY id DESC LIMIT ?, 3";
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, page * 3);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				list.add(Board.builder()
@@ -55,5 +56,26 @@ public class BoardDao {
 			DB.close(conn, pstmt, rs);
 		}
 		return null;
+	}
+	public boolean isNextList(int page) {
+		String sql = "SELECT * FROM board ORDER BY id DESC LIMIT ?, 3";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, page * 3);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return false;
+			}else {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	// 항상 실행
+			DB.close(conn, pstmt, rs);
+		}
+		return false;
 	}
 }

@@ -58,15 +58,19 @@ public class BoardController extends HttpServlet {
 			dto.setContent(content);
 			int result = boardService.글쓰기(dto);
 			if(result == 1) {
-				response.sendRedirect("index.jsp");
+				 RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
+				 dis.forward(request, response);
 			}else {
 				Script.back(response, "글쓰기 실패");
 			}
 		}else if(cmd.equals("list")) {
-			 List<Board> list = boardService.목록보기();
-			 RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
-			 request.setAttribute("list", list);
-			 dis.forward(request, response);
+			int page = Integer.parseInt(request.getParameter("page"));	// 최소: 0; next : 1
+			List<Board> list = boardService.목록보기(page);
+			boolean isEnd = boardService.다음게시물목록여부(page + 1);
+			RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
+			request.setAttribute("list", list);
+			request.setAttribute("isEnd", isEnd);
+			dis.forward(request, response);
 		}
 	}
 }
