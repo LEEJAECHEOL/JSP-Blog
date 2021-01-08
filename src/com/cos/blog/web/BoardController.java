@@ -1,5 +1,6 @@
 package com.cos.blog.web;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -13,11 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.domain.board.Board;
+import com.cos.blog.domain.board.dto.DeleteReqDto;
+import com.cos.blog.domain.board.dto.DeleteRespDto;
 import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
 import com.cos.blog.domain.user.User;
 import com.cos.blog.service.BoardService;
 import com.cos.blog.util.Script;
+import com.google.gson.Gson;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -94,20 +98,26 @@ public class BoardController extends HttpServlet {
 			
 		}else if(cmd.equals("delete")) {
 			User principal =(User)session.getAttribute("principal");
-			int userId = Integer.parseInt(request.getParameter("userId"));
-			int id = Integer.parseInt(request.getParameter("id"));
-			if(!(principal != null && principal.getId() == userId)) {
+			BufferedReader br = request.getReader();
+			String data = br.readLine();
+			Gson gson = new Gson();
+			DeleteReqDto dto = gson.fromJson(data, DeleteReqDto.class);
+			if(!(principal != null && principal.getId() == dto.getUserId())) {
 				PrintWriter out = response.getWriter();
 				out.print("fail");
+				out.flush();
 				return ;
 			}
-			int result = boardService.게시글삭제(id);
-			PrintWriter out = response.getWriter();
+			int result = boardService.게시글삭제(dto.getId());
+			DeleteRespDto respDto = new DeleteRespDto();
 			if(result == 1) {
-				out.print("ok");
+				respDto.setStatus("ok");
 			}else {
-				out.print("fail");
+				respDto.setStatus("false");
 			}
+			String respData = gson.toJson(respDto);
+			PrintWriter out = response.getWriter();
+			out.print(respData);
 			out.flush();
 		}
 	}

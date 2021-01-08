@@ -66,16 +66,19 @@
 </div>
 <script>
 	function deleteById(id, userId){
-		
+		var data = {
+			id : id,
+			userId : userId
+		};
 		$.ajax({
 			type : "POST",
 			url : "http://localhost:8000/blog/board?cmd=delete",
-			data : "id="+id+"&userId="+userId,
-			contentType : "application/x-www-form-urlencoded",
-			dataType:"text"
+			data : JSON.stringify(data),
+			contentType : "application/json;charset=utf-8",
+			dataType:"json"
 		})
 		.done(function(result){
-			if(result === "ok"){
+			if(result.status === "ok"){
 				location.href = "board?cmd=list&page=0";
 			}else {
 				alert("게시글 삭제 실패");
