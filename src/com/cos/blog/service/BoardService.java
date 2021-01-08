@@ -21,11 +21,17 @@ public class BoardService {
 	public List<Board> 목록보기(int page){
 		return boardDao.findAll(page);
 	}
+	public List<Board> 목록보기(int page, String keyword){
+		return boardDao.findAll(page, keyword);
+	}
 	public boolean 다음게시물목록여부(int page) {
 		return boardDao.isNextList(page);
 	}
 	public int 글개수() {
 		return boardDao.count();
+	}
+	public int 글개수(String keyword) {
+		return boardDao.count(keyword);
 	}
 	public DetailRespDto 글상세보기(int id){
 		// 조회수 + 1

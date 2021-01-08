@@ -33,7 +33,7 @@
 					<div class="panel-body">
 						<textarea id="reply__write__form" class="form-control" placeholder="write a comment..." rows="2"></textarea>
 						<br>
-						<button onclick="#" class="btn btn-primary pull-right">댓글쓰기</button>
+							<button onclick="#" class="btn btn-primary pull-right">댓글쓰기</button>
 						<div class="clearfix"></div>
 						<hr />
 						

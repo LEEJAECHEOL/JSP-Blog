@@ -10,7 +10,6 @@
 			
 			<input type="text" name="keyword" class="form-control mr-sm-2" placeholder="Search">			
 			<button class="btn btn-primary m-1">검색</button>
-		
 		</form>
 	</div>
 
