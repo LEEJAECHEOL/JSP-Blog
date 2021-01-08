@@ -78,4 +78,22 @@ public class BoardDao {
 		}
 		return false;
 	}
+	public int count() {
+		String sql = "SELECT COUNT(*) FROM board";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	// 항상 실행
+			DB.close(conn, pstmt, rs);
+		}
+		return -1;
+	}
 }

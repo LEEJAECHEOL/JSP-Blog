@@ -49,13 +49,15 @@ public class BoardController extends HttpServlet {
 				dis.forward(request, response);
 			}
 		}else if(cmd.equals("save")) {
-			int userId = Integer.parseInt(request.getParameter("userId"));
-			String title = request.getParameter("title");
-			String content = request.getParameter("content");
-			SaveReqDto dto = new SaveReqDto();
-			dto.setUserId(userId);
-			dto.setTitle(title);
-			dto.setContent(content);
+//			int userId = Integer.parseInt(request.getParameter("userId"));
+//			String title = request.getParameter("title");
+//			String content = request.getParameter("content");
+//			SaveReqDto dto = new SaveReqDto();
+//			dto.setUserId(userId);
+//			dto.setTitle(title);
+//			dto.setContent(content);
+			SaveReqDto dto = (SaveReqDto)request.getAttribute("dto");
+			System.out.println(dto);
 			int result = boardService.글쓰기(dto);
 			if(result == 1) {
 				 RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
@@ -66,10 +68,15 @@ public class BoardController extends HttpServlet {
 		}else if(cmd.equals("list")) {
 			int page = Integer.parseInt(request.getParameter("page"));	// 최소: 0; next : 1
 			List<Board> list = boardService.목록보기(page);
-			boolean isEnd = boardService.다음게시물목록여부(page + 1);
+//			boolean isEnd = boardService.다음게시물목록여부(page + 1);
+			int boardCount = boardService.글개수();
+			int lastPage = (boardCount -1) / 3;
+			double currentPercent = (double)page / lastPage * 100;
 			RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
 			request.setAttribute("list", list);
-			request.setAttribute("isEnd", isEnd);
+//			request.setAttribute("isEnd", isEnd);
+			request.setAttribute("lastPage", lastPage);
+			request.setAttribute("currentPercent", currentPercent);
 			dis.forward(request, response);
 		}
 	}

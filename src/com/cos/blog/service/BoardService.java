@@ -22,4 +22,7 @@ public class BoardService {
 	public boolean 다음게시물목록여부(int page) {
 		return boardDao.isNextList(page);
 	}
+	public int 글개수() {
+		return boardDao.count();
+	}
 }
