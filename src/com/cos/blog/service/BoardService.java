@@ -27,6 +27,8 @@ public class BoardService {
 		return boardDao.count();
 	}
 	public DetailRespDto 글상세보기(int id){
+		// 조회수 + 1
+		boardDao.updateReadCount(id);
 		return boardDao.findById(id);
 	}
 }
