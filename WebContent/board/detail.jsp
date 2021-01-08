@@ -79,7 +79,7 @@
 			dataType:"json"
 		})
 		.done(function(result){
-			if(result.status === "ok"){
+			if(result.statusCode === 1){
 				location.href = "board?cmd=list&page=0";
 			}else {
 				alert("게시글 삭제 실패");

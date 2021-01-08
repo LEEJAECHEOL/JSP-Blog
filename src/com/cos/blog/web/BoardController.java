@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.domain.board.Board;
+import com.cos.blog.domain.board.dto.CommonRespDto;
 import com.cos.blog.domain.board.dto.DeleteReqDto;
 import com.cos.blog.domain.board.dto.DeleteRespDto;
 import com.cos.blog.domain.board.dto.DetailRespDto;
@@ -111,12 +112,10 @@ public class BoardController extends HttpServlet {
 			}
 			int result = boardService.게시글삭제(dto.getId());
 			DeleteRespDto respDto = new DeleteRespDto();
-			if(result == 1) {
-				respDto.setStatus("ok");
-			}else {
-				respDto.setStatus("false");
-			}
-			String respData = gson.toJson(respDto);
+			CommonRespDto<String> commonRespDto = new CommonRespDto<>();
+			commonRespDto.setStatusCode(result);
+			commonRespDto.setData("성공");
+			String respData = gson.toJson(commonRespDto);
 			PrintWriter out = response.getWriter();
 			out.print(respData);
 			out.flush();
