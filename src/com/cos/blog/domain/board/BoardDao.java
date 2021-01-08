@@ -9,6 +9,7 @@ import java.util.List;
 import com.cos.blog.config.DB;
 import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
+import com.cos.blog.domain.board.dto.UpdateReqDto;
 import com.cos.blog.domain.user.User;
 
 public class BoardDao {
@@ -32,7 +33,7 @@ public class BoardDao {
 	}
 	public List<Board> findAll(int page){
 		List<Board> list = new ArrayList<>();
-		String sql = "SELECT id, userId, title, readCount, createDate FROM board ORDER BY id DESC LIMIT ?, 3";
+		String sql = "SELECT * FROM board ORDER BY id DESC LIMIT ?, 3";
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -153,6 +154,24 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
+			int result = pstmt.executeUpdate();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	// 항상 실행
+			DB.close(conn, pstmt);
+		}
+		return -1;
+	}
+	public int update(UpdateReqDto dto) {
+		String sql = "UPDATE board SET title = ?, content = ? WHERE id = ?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getId());
 			int result = pstmt.executeUpdate();
 			return result;
 		} catch (Exception e) {
