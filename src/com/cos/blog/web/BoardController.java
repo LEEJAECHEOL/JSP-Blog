@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.domain.board.Board;
+import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
 import com.cos.blog.domain.user.User;
 import com.cos.blog.service.BoardService;
@@ -77,6 +78,12 @@ public class BoardController extends HttpServlet {
 //			request.setAttribute("isEnd", isEnd);
 			request.setAttribute("lastPage", lastPage);
 			request.setAttribute("currentPercent", currentPercent);
+			dis.forward(request, response);
+		}else if(cmd.equals("detail")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			DetailRespDto dto = boardService.글상세보기(id);	// board테이블 + user테이블 = 조인데이터
+			request.setAttribute("dto", dto);
+			RequestDispatcher dis = request.getRequestDispatcher("board/detail.jsp");
 			dis.forward(request, response);
 		}
 	}
