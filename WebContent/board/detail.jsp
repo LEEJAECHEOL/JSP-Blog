@@ -5,7 +5,7 @@
 
 <div class="container">
 	<c:if test="${ sessionScope.principal!=null && sessionScope.principal.id == dto.userId}">
-		<button class="btn btn-danger" onClick="deleteById(${dto.id})">삭제</button>
+		<button class="btn btn-danger" onClick="deleteById(${dto.id},${dto.userId})">삭제</button>
 	</c:if>
 	<br />
 	<br />
@@ -65,14 +65,14 @@
 	<!-- 댓글 박스 끝 -->
 </div>
 <script>
-	function deleteById(id){
+	function deleteById(id, userId){
 		
 		$.ajax({
 			type : "POST",
 			url : "http://localhost:8000/blog/board?cmd=delete",
-			data : "id="+id,
+			data : "id="+id+"&userId="+userId,
 			contentType : "application/x-www-form-urlencoded",
-			//dataType: "json"
+			dataType:"text"
 		})
 		.done(function(result){
 			if(result === "ok"){

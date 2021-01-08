@@ -81,8 +81,8 @@ public class BoardController extends HttpServlet {
 			request.setAttribute("currentPercent", currentPercent);
 			dis.forward(request, response);
 		}else if(cmd.equals("detail")) {
-			
 			int id = Integer.parseInt(request.getParameter("id"));
+			
 			DetailRespDto dto = boardService.글상세보기(id);	// board테이블 + user테이블 = 조인데이터
 			if(dto == null) {
 				Script.back(response, "상세보기 실패");
@@ -94,8 +94,13 @@ public class BoardController extends HttpServlet {
 			
 		}else if(cmd.equals("delete")) {
 			User principal =(User)session.getAttribute("principal");
+			int userId = Integer.parseInt(request.getParameter("userId"));
 			int id = Integer.parseInt(request.getParameter("id"));
-			System.out.println(id);
+			if(!(principal != null && principal.getId() == userId)) {
+				PrintWriter out = response.getWriter();
+				out.print("fail");
+				return ;
+			}
 			int result = boardService.게시글삭제(id);
 			PrintWriter out = response.getWriter();
 			if(result == 1) {
