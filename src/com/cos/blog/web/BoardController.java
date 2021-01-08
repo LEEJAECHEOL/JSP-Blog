@@ -1,6 +1,7 @@
 package com.cos.blog.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -80,6 +81,7 @@ public class BoardController extends HttpServlet {
 			request.setAttribute("currentPercent", currentPercent);
 			dis.forward(request, response);
 		}else if(cmd.equals("detail")) {
+			
 			int id = Integer.parseInt(request.getParameter("id"));
 			DetailRespDto dto = boardService.글상세보기(id);	// board테이블 + user테이블 = 조인데이터
 			if(dto == null) {
@@ -90,6 +92,18 @@ public class BoardController extends HttpServlet {
 				dis.forward(request, response);
 			}
 			
+		}else if(cmd.equals("delete")) {
+			User principal =(User)session.getAttribute("principal");
+			int id = Integer.parseInt(request.getParameter("id"));
+			System.out.println(id);
+			int result = boardService.게시글삭제(id);
+			PrintWriter out = response.getWriter();
+			if(result == 1) {
+				out.print("ok");
+			}else {
+				out.print("fail");
+			}
+			out.flush();
 		}
 	}
 }

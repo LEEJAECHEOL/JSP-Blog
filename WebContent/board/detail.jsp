@@ -4,6 +4,9 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="container">
+	<c:if test="${ sessionScope.principal!=null && sessionScope.principal.id == dto.userId}">
+		<button class="btn btn-danger" onClick="deleteById(${dto.id})">삭제</button>
+	</c:if>
 	<br />
 	<br />
 	<h6 class="m-2">
@@ -61,6 +64,24 @@
 	</div>
 	<!-- 댓글 박스 끝 -->
 </div>
-
+<script>
+	function deleteById(id){
+		
+		$.ajax({
+			type : "POST",
+			url : "http://localhost:8000/blog/board?cmd=delete",
+			data : "id="+id,
+			contentType : "application/x-www-form-urlencoded",
+			//dataType: "json"
+		})
+		.done(function(result){
+			if(result === "ok"){
+				location.href = "board?cmd=list&page=0";
+			}else {
+				alert("게시글 삭제 실패");
+			}
+		});
+	}
+</script>
 </body>
 </html>

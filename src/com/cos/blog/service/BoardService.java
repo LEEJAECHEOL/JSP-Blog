@@ -34,6 +34,8 @@ public class BoardService {
 		}else {
 			return null;
 		}
-		
+	}
+	public int 게시글삭제(int id) {
+		return boardDao.deleteById(id);
 	}
 }
