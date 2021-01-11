@@ -31,13 +31,10 @@
 				<div class="panel panel-info">
 					<div class="panel-heading m-2"><b>Comment</b></div>
 					<div class="panel-body">
-						<form action="/blog/reply?cmd=save" method="post">
-							<input type="hidden" name="userId" value="${sessionScope.principal.id}">
-							<input type="hidden" name="boardId" value="${dto.id}">
-							<textarea id="reply__write__form" name="content" class="form-control" placeholder="write a comment..." rows="2"></textarea>
-							<br>
-							<button onclick="#" class="btn btn-primary pull-right">댓글쓰기</button>
-						</form>
+						<textarea id="content" name="content" class="form-control" placeholder="write a comment..." rows="2"></textarea>
+						<br>
+						<button onClick="replySave(${sessionScope.principal.id}, ${dto.id})" class="btn btn-primary pull-right">댓글쓰기</button>
+						
 						
 						<div class="clearfix"></div>
 						<hr />
@@ -55,8 +52,8 @@
 								</div>
 								<div class="m-2">
 									<i onclick="#" class="material-icons">delete</i>
-									</div>
-								</li>
+								</div>
+							</li>
 							
 						</ul>
 						<!-- 댓글 리스트 끝-->
@@ -86,6 +83,34 @@
 				location.href = "board?cmd=list&page=0";
 			}else {
 				alert("게시글 삭제 실패");
+			}
+		});
+	}
+	function replySave(userId, boardId){
+		var data = {
+			userId : userId,
+			boardId : boardId,
+			content : document.querySelector('#content').value
+		};
+		$.ajax({
+			type:"post",
+			url:"/blog/reply?cmd=save",
+			data : JSON.stringify(data),
+			contentType:'application/json;charset=utf-8',
+			dataType:'json'
+
+		}).done(function (result){
+			if(result.statusCode === 1){
+				console.log(data.userId);
+				var content = `<li id="reply-1" class="media"><div class="media-body"><strong class="text-primary">`;
+				content += data.userId + `</strong><p>` + data.content + `</p></div>
+					<div class="m-2">
+						<i onclick="#" class="material-icons">delete</i>
+					</div>
+				</li>`;
+				$("#reply__list").prepend(content)
+			}else {
+				alert("댓글쓰기 실패");
 			}
 		});
 	}
