@@ -57,11 +57,14 @@ public class ReplyController extends HttpServlet {
 			}
 			String responseData = gson.toJson(commonRespDto);
 			Script.responseData(response, responseData);
-		}else if(cmd.equals("delte")) {
+		}else if(cmd.equals("delete")) {
+			System.out.println("run");
 			BufferedReader br = new BufferedReader(request.getReader());
 			String reqData = br.readLine();
+			System.out.println(reqData);
 			Gson gson = new Gson();
 			DeleteReqDto dto = gson.fromJson(reqData, DeleteReqDto.class);
+			System.out.println("댓글삭제 : " +dto);
 			int result = replyService.댓글삭제(dto);
 			CommonRespDto<Reply> commonRespDto = new CommonRespDto<>();
 			if(result == 1) {
