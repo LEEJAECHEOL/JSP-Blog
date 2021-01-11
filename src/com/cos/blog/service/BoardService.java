@@ -48,4 +48,5 @@ public class BoardService {
 	public int 글수정(UpdateReqDto dto) {
 		return boardDao.update(dto);
 	}
+		
 }

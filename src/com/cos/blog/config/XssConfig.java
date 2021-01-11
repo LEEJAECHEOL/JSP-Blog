@@ -21,7 +21,10 @@ public class XssConfig implements Filter {
 		HttpServletResponse res = (HttpServletResponse)response;
 		
 		String gubun = req.getParameter("cmd");
-		if(gubun.equals("save")) {
+		String context = req.getContextPath();
+		String uri = req.getRequestURI();
+		String endPoint = uri.replace(context, "");
+		if(gubun.equals("save") && endPoint.equals("/board")) {
 			int userId = Integer.parseInt(request.getParameter("userId"));
 			String title = req.getParameter("title");
 			title = title.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
