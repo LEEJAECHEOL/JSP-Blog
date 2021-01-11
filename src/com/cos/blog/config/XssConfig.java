@@ -24,6 +24,7 @@ public class XssConfig implements Filter {
 		String context = req.getContextPath();
 		String uri = req.getRequestURI();
 		String endPoint = uri.replace(context, "");
+		gubun = gubun == null ? "" :gubun;
 		if(gubun.equals("save") && endPoint.equals("/board")) {
 			int userId = Integer.parseInt(request.getParameter("userId"));
 			String title = req.getParameter("title");
@@ -33,7 +34,6 @@ public class XssConfig implements Filter {
 			dto.setUserId(userId);
 			dto.setTitle(title);
 			dto.setContent(content);
-//			System.out.println("filterXss : " + dto.toString());
 			req.setAttribute("dto", dto);
 		}
 		chain.doFilter(req, res);	

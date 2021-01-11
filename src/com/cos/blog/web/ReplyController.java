@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.domain.board.dto.CommonRespDto;
+import com.cos.blog.domain.reply.Reply;
 import com.cos.blog.domain.reply.dto.SaveReqDto;
 import com.cos.blog.service.ReplyService;
 import com.cos.blog.util.Script;
@@ -43,10 +44,18 @@ public class ReplyController extends HttpServlet {
 			Gson gson = new Gson();
 			SaveReqDto dto = gson.fromJson(reqData, SaveReqDto.class);
 			int result = replyService.댓글저장(dto);
-			
-			CommonRespDto resultData = new CommonRespDto<>();
-			resultData.setStatusCode(result);
-			Script.responseData(response, gson.toJson(resultData));
+			Reply reply = null;
+			CommonRespDto<Reply> commonRespDto = new CommonRespDto<>();
+			if(result != -1) {
+				reply = replyService.댓글찾기(result);
+//				System.out.println("reply : " +reply.toString());
+				commonRespDto.setStatusCode(1);
+				commonRespDto.setData(reply);
+			}else {
+				commonRespDto.setStatusCode(-1);
+			}
+			String responseData = gson.toJson(commonRespDto);
+			Script.responseData(response, responseData);
 			
 		}
 	}
