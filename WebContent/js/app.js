@@ -46,7 +46,7 @@ function replySave(userId, boardId){
 		data : JSON.stringify(data),
 		contentType:'application/json;charset=utf-8',
 		dataType:'json'
-
+		
 	}).done(function (result){
 		if(result.statusCode === 1){
 			addReply(result.data);
@@ -58,4 +58,15 @@ function replySave(userId, boardId){
 function deleteReply(id){
 	// 세션의 유저의 id와 reply의 userId를 비교해서 같을때만!!
 	alert("댓글 아이디 : "+id);
+	var data = {id:id};
+	$.ajax({
+		type:"post",
+		url:"/blog/reply?cmd=delete",
+		data : JSON.stringify(data),
+		contentType:'application/json;charset=utf-8',
+		dataType:'json'
+	}).done(function (result){
+		console.log(result);
+	});
+	
 }

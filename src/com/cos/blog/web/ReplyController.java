@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.domain.board.dto.CommonRespDto;
+import com.cos.blog.domain.reply.dto.DeleteReqDto;
 import com.cos.blog.domain.reply.Reply;
 import com.cos.blog.domain.reply.dto.SaveReqDto;
 import com.cos.blog.service.ReplyService;
@@ -56,7 +57,20 @@ public class ReplyController extends HttpServlet {
 			}
 			String responseData = gson.toJson(commonRespDto);
 			Script.responseData(response, responseData);
-			
+		}else if(cmd.equals("delte")) {
+			BufferedReader br = new BufferedReader(request.getReader());
+			String reqData = br.readLine();
+			Gson gson = new Gson();
+			DeleteReqDto dto = gson.fromJson(reqData, DeleteReqDto.class);
+			int result = replyService.댓글삭제(dto);
+			CommonRespDto<Reply> commonRespDto = new CommonRespDto<>();
+			if(result == 1) {
+				commonRespDto.setStatusCode(1);
+			}else {
+				commonRespDto.setStatusCode(-1);
+			}
+			String responseData = gson.toJson(commonRespDto);
+			Script.responseData(response, responseData);
 		}
 	}
 }

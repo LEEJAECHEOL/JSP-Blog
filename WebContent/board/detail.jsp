@@ -41,19 +41,26 @@
 						
 						<!-- 댓글 리스트 시작-->
 						<ul id="reply__list" class="media-list">
-						
-							<!-- 댓글 아이템 -->
-							<li id="reply-1" class="media">		
-								<div class="media-body">
-									<strong class="text-primary">홍길동</strong>
-									<p>
-										댓글입니다.
-									</p>
-								</div>
-								<div class="m-2">
-									<i onclick="#" class="material-icons">delete</i>
-								</div>
-							</li>
+							<c:forEach var="reply" items="${replys}">
+								<!-- 댓글 아이템 -->
+								<li id="reply-1" class="media">		
+								<li id="reply-${reply.id}" class="media">
+									<div class="media-body">
+										<strong class="text-primary">홍길동</strong>
+										<p>
+											댓글입니다.
+										</p>
+										<strong class="text-primary">${reply.userId}</strong>
+										<p>${reply.content}</p>
+									</div>
+									<div class="m-2">
+		
+										<i onclick="deleteReply(${reply.id})" class="material-icons">delete</i>
+
+									</div>
+								</li>
+
+							</c:forEach>
 							
 						</ul>
 						<!-- 댓글 리스트 끝-->
